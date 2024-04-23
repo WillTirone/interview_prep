@@ -1,0 +1,86 @@
+---
+title: "merck_coding_interview"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+For a coding interview in R, it's crucial to be familiar with both base R and the tidyverse, as they offer different approaches to data manipulation and analysis. Here's a breakdown of the essentials for both:
+
+### Base R Essentials:
+
+1.  **Vectors**: Understanding how to create, subset, and manipulate vectors is fundamental. Know about numeric, character, logical, and factor vectors.
+
+```{r}
+# create 
+data = c(1,2,3,5,6,2,3)
+
+# basic slicing 
+data_sub = data[1:4]
+
+# numeric vector 
+class(data)
+
+# character vector 
+char_data = c("Will", "math", "test")
+class(char_data)
+
+# logical vector 
+logi = c(T, F, T, T)
+class(logi)
+
+# factor 
+fact_data = as.factor(c("Good", "Best", "Worst", "Neutral"))
+
+```
+
+1.  **Data Frames**: Data frames are essential for working with tabular data. Understand how to create, subset, and manipulate data frames.
+
+```{r}
+num_col = 5
+num_row = 5 
+data = matrix(runif(num_row * num_col), num_row, num_col)
+test_df = data.frame(data)
+names(test_df) = c('d1', 'd2', 'd3', 'd4', 'd5')
+
+# OR 
+test_2 = data.frame(
+  d1 = c(5,4,3), 
+  d2 = c(9,1,2)
+)
+
+test_2
+```
+
+1.  **Functions**: Know how to create and use functions in R.
+
+2.  **Control Structures**: Mastery of control structures like loops (for, while), if-else statements, and switch statements is important.
+
+3.  **Data Types and Structures**: Understand other data structures like lists, matrices, and arrays.
+
+4.  **Reading and Writing Data**: Ability to read data from files (e.g., CSV, Excel) and write data to files.
+
+5.  **Basic Statistical Functions**: Familiarity with functions like mean, median, sum, sd, etc. Definitely review sampling and distributions with quartiles like qpois, rpois etc.
+
+    ```{r}
+
+    ```
+
+6.  **Plotting**: Basic plotting functions such as plot(), hist(), and boxplot().
+
+### Tidyverse Essentials:
+
+1.  **Tibbles**: Tibbles are a modern version of data frames in the tidyverse. Know how to create and manipulate tibbles.
+2.  **Piping (%\>%)**: Mastery of the pipe operator for chaining operations (%\>%).
+3.  **dplyr**: Understand the dplyr package for data manipulation, including functions like filter(), select(), mutate(), summarise(), and arrange().
+4.  **tidyr**: Know how to use tidyr functions like gather() and spread() for data tidying.
+5.  **ggplot2**: Familiarity with ggplot2 for data visualization. Know how to create basic plots and customize them.
+6.  **Stringr**: If dealing with text data, understanding functions in stringr for string manipulation.
+7.  **Factors and Dates**: Tidyverse has its own way of handling factors and dates. Familiarize yourself with these methods if you'll be working with such data types.
+8.  **Tidy Data Principles**: Understand the concept of tidy data and how to reshape data into tidy format using tidyr functions.
+9.  **Purrr**: Know how to use purrr for functional programming, especially when working with lists and applying functions iteratively.
+
+Remember to practice coding problems using both base R and tidyverse approaches to become proficient. Good luck with your interview preparation!
