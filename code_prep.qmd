@@ -197,7 +197,7 @@ a[1:2, 1]
 glimpse(a)
 ```
 
-Appending to tibbles: \
+Appending to tibbles:\
 
 ```{r}
 bind_rows(a, a)
@@ -322,8 +322,10 @@ data |>
 4.  stringr
 
 ```{r}
-x <- c("why", "video", "cross", "extra", "deal", "authority")
-x
+x <- c("why", "video", "cross", "extra", "deal", "authority", "whale")
+x[str_detect(x, "wh")]
 ```
 
 4.  forcats
+
+fct_relevel()
