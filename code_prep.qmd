@@ -6,11 +6,9 @@ editor: visual
 
 ```{r}
 library(tidyverse)
+library(tidymodels)
+library(kableExtra)
 ```
-
-For a coding interview in R, it's crucial to be familiar with both base R and the tidyverse, as they offer different approaches to data manipulation and analysis. Here's a breakdown of the essentials for both:
-
-### Base R Essentials:
 
 1.  **Vectors**: Understanding how to create, subset, and manipulate vectors is fundamental. Know about numeric, character, logical, and factor vectors.
 
@@ -51,36 +49,281 @@ test_2 = data.frame(
   d1 = c(5,4,3), 
   d2 = c(9,1,2)
 )
+```
 
-test_2
+```{r}
+# subsetting 
+test_2[1:3, 1:2]
 ```
 
 1.  **Functions**: Know how to create and use functions in R.
 
+```{r}
+add <- function(a,b){
+  ans = a + b 
+  return(ans)
+}
+
+add(5,100)
+```
+
 2.  **Control Structures**: Mastery of control structures like loops (for, while), if-else statements, and switch statements is important.
 
-3.  **Data Types and Structures**: Understand other data structures like lists, matrices, and arrays.
+```{r}
+# for 
+for (i in 1:10){
+  print(i)
+}
+  
+start = 0 
+while (start <= 10){
+  start = start + 2 
+  print(start)
+}
 
-4.  **Reading and Writing Data**: Ability to read data from files (e.g., CSV, Excel) and write data to files.
+condition = F
+if (condition){
+  print('hello world')
+} else {
+  print('oops')
+}
+```
 
-5.  **Basic Statistical Functions**: Familiarity with functions like mean, median, sum, sd, etc. Definitely review sampling and distributions with quartiles like qpois, rpois etc.
+1.  **Data Types and Structures**: Understand other data structures like lists, matrices, and arrays.
 
-    ```{r}
+Lists
 
-    ```
+```{r}
+# Create a list with different types of elements
+my_list <- list(
+  numeric_vector = c(1, 2, 3),
+  character_vector = c("a", "b", "c"),
+  matrix = matrix(1:4, nrow = 2),
+  data_frame = data.frame(x = 1:3, y = c("a", "b", "c"))
+)
 
-6.  **Plotting**: Basic plotting functions such as plot(), hist(), and boxplot().
+# access elements 
+my_list$numeric_vector
+
+# OR 
+my_list[[1]]
+
+# OR 
+my_list[['numeric_vector']]
+
+# other stuff 
+my_list[['new_thing']] = c(1,2,3)
+names(my_list)
+
+# remove 
+my_list[['numeric_vector']] <- NULL
+names(my_list)
+
+# apply a function to a list
+lapply(my_list, print)
+```
+
+Matrices
+
+```{r}
+# Create a 3x3 matrix
+my_matrix <- matrix(1:9, nrow = 3, ncol = 3)
+my_matrix[1, 3]
+
+# Get the dimensions of the matrix
+matrix_dim <- dim(my_matrix)
+
+# Get the row names and column names of the matrix
+row_names <- rownames(my_matrix)
+col_names <- colnames(my_matrix)
+
+rownames(my_matrix) = c('n1', 'n2', 'n3')
+
+# operations 
+my_matrix * 2
+det(my_matrix)
+my_matrix^2
+
+identity = diag(4)
+identity
+```
+
+2.  **Reading and Writing Data**: Ability to read data from files (e.g., CSV, Excel) and write data to files.
+
+3.  **Basic Statistical Functions**: Familiarity with functions like mean, median, sum, sd, etc. Definitely review sampling and distributions with quartiles like qpois, rpois etc.
+
+```{r}
+data = runif(10, 0, 1)
+mean(data)
+median(data)
+sum(data)
+
+# number of successes in size trials
+
+# sampling 
+binomial = rbinom(3, 10, 0.5) # draw 3 samples with each from 0 to 10
+binomial
+
+# density 
+# in 10 coin flips we get 3 successes
+dbinom(3, 10, 0.5)
+
+# CDF 
+pbinom(3, 10, 0.5)
+
+# same as ... 
+dbinom(0, 10, 0.5) + dbinom(1, 10, 0.5) + dbinom(2, 10, 0.5) + dbinom(3, 10, 0.5)
+
+# quantiles : values that partition the interval into intervals with equal probabilities 
+# what value of 10 flips gives us lower tail probability of 0.5
+qbinom(0.5, 10, 0.5)
+```
+
+4.  **Plotting**: Basic plotting functions such as plot(), hist(), and boxplot().
+
+```{r}
+# plot 
+plot(1:10, 1:10)
+hist(c(1,1,1,1,1,4,4,4,3,3,3,2,2,2,2))
+```
 
 ### Tidyverse Essentials:
 
 1.  **Tibbles**: Tibbles are a modern version of data frames in the tidyverse. Know how to create and manipulate tibbles.
-2.  **Piping (%\>%)**: Mastery of the pipe operator for chaining operations (%\>%).
-3.  **dplyr**: Understand the dplyr package for data manipulation, including functions like filter(), select(), mutate(), summarise(), and arrange().
-4.  **tidyr**: Know how to use tidyr functions like gather() and spread() for data tidying.
-5.  **ggplot2**: Familiarity with ggplot2 for data visualization. Know how to create basic plots and customize them.
-6.  **Stringr**: If dealing with text data, understanding functions in stringr for string manipulation.
-7.  **Factors and Dates**: Tidyverse has its own way of handling factors and dates. Familiarize yourself with these methods if you'll be working with such data types.
-8.  **Tidy Data Principles**: Understand the concept of tidy data and how to reshape data into tidy format using tidyr functions.
-9.  **Purrr**: Know how to use purrr for functional programming, especially when working with lists and applying functions iteratively.
 
-Remember to practice coding problems using both base R and tidyverse approaches to become proficient. Good luck with your interview preparation!
+```{r}
+a = tibble(x = 1:5, y = 11:15)
+a[1:2, 1]
+glimpse(a)
+```
+
+Appending to tibbles: \
+
+```{r}
+bind_rows(a, a)
+```
+
+2.  **dplyr**
+
+-   mutate(), select(), summarize(), arrange(), filter(), count()
+
+```{r}
+diamonds |> 
+  summarise(mean_carat = mean(carat))
+
+diamonds |> 
+  count(color, clarity)
+
+diamonds |> 
+  group_by(color) |> 
+  summarise(mean_carat = mean(carat))
+
+diamonds |> 
+  summarise(rows = n())
+
+# find distinct items 
+diamonds |> 
+  distinct(cut)
+
+diamonds |> 
+  filter(clarity %in% c("SI2", "SI1"))
+
+diamonds |> 
+  filter(!(clarity %in% c("SI2", "SI1")))
+
+diamonds |> 
+  count(color) |> 
+  mutate(prop = n / sum(n))
+```
+
+If-else
+
+```{r}
+diamonds |> 
+  mutate(color_bin = if_else(color %in% c('E', 'I','J'), "bin 1", "bin 2"))
+```
+
+effect **across** columns
+
+**come back after purr**
+
+```{r}
+# across 
+```
+
+3.  ggplot
+
+```{r}
+diamonds |> 
+  ggplot(aes(x = carat, y = price, color = cut)) + 
+  geom_point(size = 1, shape = 10) + 
+  labs(title = "price vs. carat",
+       x = "carat",
+       y = "price") + 
+  scale_colour_viridis_d()
+```
+
+4.  tidyr
+
+-   pivot long / wider
+
+**handling NAs:**
+
+```{r}
+df <- data.frame(
+  ID = 1:5,
+  Value1 = c(10, NA, 20, NA, 50),
+  Value2 = c(NA, 30, 40, 50, NA)
+)
+
+# returns any rows with NAs
+df[is.na(df), ]
+
+# rows with NAs for value1
+df[is.na(df$Value1), ]
+
+# rows with NOT NA for value1
+df[!(is.na(df$Value1)), ]
+
+# drop any na's 
+df |> drop_na()
+
+# Fill ALL NAs
+df |> 
+  replace_na(list(Value1 = 0, Value2 = 0))
+
+# replace NAs in a single vector 
+df |> 
+  mutate(Value1 = replace_na(Value1, 0))
+
+# fills down by default 
+df |> 
+  fill(Value1, Value2)
+
+df |>
+  fill(Value1, .direction = "up")
+```
+
+4.  purrr
+
+R for DS map: https://r4ds.had.co.nz/iteration.html#the-map-functions
+
+```{r}
+data = tibble(
+  A = c(1,6,5),
+  B = c(9,8,1)
+) 
+
+# column-wise by default 
+data |> 
+  map_dbl(mean)
+```
+
+4.  stringr
+
+```{r}
+x <- c("why", "video", "cross", "extra", "deal", "authority")
+x
+```
+
+4.  forcats
